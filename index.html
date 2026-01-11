@@ -1,8 +1,14 @@
-<!DOCTYPE html><html lang="ar" dir="rtl">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>محرر المستندات القانونية</title>  <!-- الخط العربي -->  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">  <!-- التنسيق العام -->  <link rel="stylesheet" href="assets/css/main.css" />  <style>
+  <title>محرر المستندات القانونية</title>
+
+  <!-- الخط العربي -->
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
     body {
       font-family: 'Amiri', serif;
       background-color: #f5f5f5;
@@ -65,58 +71,98 @@
       color: #666;
       font-size: 14px;
     }
-  </style></head>
-<body>  <header>
-    <h1>🏛️ محرر المستندات القانونية</h1>
-    <p>إنشاء العرائض والمذكرات بالشكل القضائي الصحيح</p>
-  </header>  <main>
-    <h2>بدء مستند جديد</h2><div class="form-group">
-  <label for="docType">نوع المستند</label>
-  <select id="docType">
-    <option value="">-- اختر نوع المستند --</option>
-    <option value="civil">دعوى مدنية</option>
-    <option value="criminal">إجراء جنائي</option>
-    <option value="admin">طلب إداري</option>
-  </select>
-</div>
+  </style>
+</head>
 
-<div class="form-group">
-  <label for="template">النموذج القضائي</label>
-  <select id="template">
-    <option value="">-- اختر النموذج --</option>
-  </select>
-</div>
+<body>
 
-<div class="form-group">
-  <label for="court">المحكمة المختصة</label>
-  <select id="court">
-    <option value="">-- اختر المحكمة --</option>
-    <option>المحكمة الجزئية</option>
-    <option>المحكمة العامة</option>
-    <option>محكمة الاستئناف</option>
-  </select>
-</div>
+<header>
+  <h1>🏛️ محرر المستندات القانونية</h1>
+  <p>إنشاء العرائض والمذكرات بالشكل القضائي الصحيح</p>
+</header>
 
-<button onclick="startEditor()">ابدأ التحرير</button>
+<main>
+  <h2>بدء مستند جديد</h2>
 
-  </main>  <footer>
-    <p>© محرر المستندات القانونية – يعمل بدون خادم</p>
-  </footer>  <script>
-    function startEditor() {
-      const docType = document.getElementById('docType').value;
-      const template = document.getElementById('template').value;
-      const court = document.getElementById('court').value;
+  <div class="form-group">
+    <label for="docType">نوع المستند</label>
+    <select id="docType">
+      <option value="">-- اختر نوع المستند --</option>
+      <option value="civil">دعوى مدنية</option>
+      <option value="criminal">إجراء جنائي</option>
+      <option value="admin">طلب إداري</option>
+    </select>
+  </div>
 
-      if (!docType || !template || !court) {
-        alert('يرجى اختيار جميع الحقول قبل المتابعة');
-        return;
-      }
+  <div class="form-group">
+    <label for="template">النموذج القضائي</label>
+    <select id="template">
+      <option value="">-- اختر النموذج --</option>
+    </select>
+  </div>
 
-      localStorage.setItem('docType', docType);
-      localStorage.setItem('template', template);
-      localStorage.setItem('court', court);
+  <div class="form-group">
+    <label for="court">المحكمة المختصة</label>
+    <select id="court">
+      <option value="">-- اختر المحكمة --</option>
+      <option value="المحكمة الجزئية">المحكمة الجزئية</option>
+      <option value="المحكمة العامة">المحكمة العامة</option>
+      <option value="محكمة الاستئناف">محكمة الاستئناف</option>
+    </select>
+  </div>
 
-      window.location.href = 'editor.html';
+  <button type="button" onclick="startEditor()">ابدأ التحرير</button>
+</main>
+
+<footer>
+  <p>© محرر المستندات القانونية – يعمل بدون خادم</p>
+</footer>
+
+<script>
+  const templatesByType = {
+    civil: [
+      { value: "eviction", text: "دعوى إخلاء للفشل في السداد" }
+    ],
+    criminal: [
+      { value: "fraud", text: "عريضة دعوى احتيال" }
+    ],
+    admin: [
+      { value: "petition", text: "طلب إداري" }
+    ]
+  };
+
+  document.getElementById("docType").addEventListener("change", function () {
+    const templateSelect = document.getElementById("template");
+    templateSelect.innerHTML = '<option value="">-- اختر النموذج --</option>';
+
+    const selectedType = this.value;
+    if (!templatesByType[selectedType]) return;
+
+    templatesByType[selectedType].forEach(t => {
+      const option = document.createElement("option");
+      option.value = t.value;
+      option.textContent = t.text;
+      templateSelect.appendChild(option);
+    });
+  });
+
+  function startEditor() {
+    const docType = document.getElementById('docType').value;
+    const template = document.getElementById('template').value;
+    const court = document.getElementById('court').value;
+
+    if (!docType || !template || !court) {
+      alert('يرجى اختيار جميع الحقول قبل المتابعة');
+      return;
     }
-  </script></body>
+
+    localStorage.setItem('docType', docType);
+    localStorage.setItem('template', template);
+    localStorage.setItem('court', court);
+
+    window.location.href = 'editor.html';
+  }
+</script>
+
+</body>
 </html>
