@@ -1,0 +1,67 @@
+{
+  "id": "eviction_non_payment",
+  "category": "civil",
+  "title": "عريضة دعوى إخلاء للفشل في السداد",
+  "court_level": "محكمة جزئية",
+  "language": "ar",
+  "direction": "rtl",
+  "header": {
+    "court_name": "محكمة ............... الجزئية",
+    "case_number": "ق م / ....... / .......",
+    "subject": "دعوى إخلاء للفشل في السداد"
+  },
+  "parties": {
+    "plaintiff": {
+      "label": "المدعي",
+      "fields": [
+        { "name": "plaintiff_name", "label": "اسم المدعي", "type": "text", "required": true },
+        { "name": "plaintiff_address", "label": "عنوان المدعي", "type": "text", "required": true }
+      ]
+    },
+    "defendant": {
+      "label": "المدعى عليه",
+      "fields": [
+        { "name": "defendant_name", "label": "اسم المدعى عليه", "type": "text", "required": true },
+        { "name": "defendant_address", "label": "عنوان المدعى عليه", "type": "text", "required": true }
+      ]
+    }
+  },
+  "body": {
+    "intro": "بوافر التقدير والاحترام وإنابةً عن المدعي أعلاه ألتمس من سيادتكم تصريح دعوى في مواجهة المدعى عليه وذلك للأسباب الآتية:",
+    "facts": [
+      {
+        "order": 1,
+        "text": "المدعي هو مانح إيجارة للعقار رقم ({{property_number}}) مربع ({{block_number}}) بمدينة ({{city_name}}) للمدعى عليه."
+      },
+      {
+        "order": 2,
+        "text": "استأجر المدعى عليه العقار المذكور أعلاه بأجرة شهرية قدرها ({{monthly_rent}}) جنيه، تُدفع في نهاية كل شهر بموجب عقد إيجار مكتوب."
+      },
+      {
+        "order": 3,
+        "text": "فشل المدعى عليه في سداد أجرة شهر ({{unpaid_month}}) من العام ({{unpaid_year}})."
+      }
+    ]
+  },
+  "claims": {
+    "title": "لذلك نلتمس من سيادتكم الحكم بالآتي:",
+    "items": [
+      "الإخلاء للفشل في السداد",
+      "متأخرات الأجرة البالغ قدرها مبلغ ({{arrears_amount}}) جنيه",
+      "رسوم الدعوى وأتعاب المحاماة البالغ قدرها مبلغ ({{fees_amount}}) جنيه",
+      "لأجل الرسوم تُقدّر قيمة الدعوى بمبلغ ({{case_value}}) جنيه"
+    ]
+  },
+  "attachments": [
+    "عقد إيجار"
+  ],
+  "witnesses": {
+    "count": 2,
+    "labels": ["الشاهد الأول", "الشاهد الثاني"]
+  },
+  "footer": {
+    "closing": "ولعدالتكم فائق الاحترام والتقدير",
+    "signature_label": "مقدم العريضة",
+    "signature_line": "............................................"
+  }
+}
