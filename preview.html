@@ -1,0 +1,124 @@
+<!DOCTYPE html><html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>معاينة العريضة</title>  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">  <style>
+    body {
+      font-family: 'Amiri', serif;
+      background: #e5e7eb;
+      margin: 0;
+      padding: 0;
+    }
+
+    .toolbar {
+      background: #1f2937;
+      color: white;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .toolbar button {
+      margin: 0 5px;
+      padding: 8px 15px;
+      font-family: 'Amiri', serif;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .print-btn { background: #16a34a; color: white; }
+    .back-btn { background: #6b7280; color: white; }
+
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      background: white;
+      margin: 20px auto;
+      padding: 25mm 20mm 25mm 20mm;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      box-sizing: border-box;
+    }
+
+    h1, h2, h3 {
+      text-align: center;
+      margin: 10px 0;
+    }
+
+    .right { text-align: right; }
+    .center { text-align: center; }
+
+    .section {
+      margin-top: 15px;
+      line-height: 2;
+      font-size: 17px;
+    }
+
+    .signature {
+      margin-top: 40px;
+    }
+
+    @media print {
+      body { background: white; }
+      .toolbar { display: none; }
+      .page {
+        margin: 0;
+        box-shadow: none;
+      }
+    }
+  </style></head>
+<body><div class="toolbar">
+  <button class="back-btn" onclick="goBack()">رجوع للتحرير</button>
+  <button class="print-btn" onclick="window.print()">طباعة / PDF</button>
+</div><div class="page" id="document"></div><script>
+  const template = JSON.parse(localStorage.getItem('templateData'));
+  const data = JSON.parse(localStorage.getItem('docData'));
+
+  function render() {
+    let html = '';
+
+    html += `<div class="center"><strong>لدى ${template.header.court_name}</strong></div>`;
+    html += `<div class="center">ق م / ....... / .......</div>`;
+    html += `<div class="center"><strong>الموضوع / ${template.header.subject}</strong></div>`;
+
+    html += `<div class="section">`;
+    html += `<strong>فيما بين</strong><br>`;
+    html += `${data.plaintiff_name} — مدعي ( ${data.plaintiff_address} )<br><br>`;
+    html += `<strong>ضد</strong><br>`;
+    html += `${data.defendant_name} — مدعى عليه ( ${data.defendant_address} )`;
+    html += `</div>`;
+
+    html += `<div class="section">${template.body.intro}</div>`;
+
+    template.body.facts.forEach(f => {
+      let text = f.text;
+      Object.keys(data).forEach(k => {
+        text = text.replaceAll(`{{${k}}}`, data[k]);
+      });
+      html += `<div class="section">${f.order} ـ ${text}</div>`;
+    });
+
+    html += `<div class="section"><strong>${template.claims.title}</strong></div>`;
+    template.claims.items.forEach((item, i) => {
+      let t = item;
+      Object.keys(data).forEach(k => {
+        t = t.replaceAll(`{{${k}}}`, data[k]);
+      });
+      html += `<div class="section">${String.fromCharCode(1571 + i)} ـ ${t}</div>`;
+    });
+
+    html += `<div class="section"><strong>المرفقات:</strong> ${template.attachments.join(' ، ')}</div>`;
+
+    html += `<div class="section"><strong>الشهود:</strong> 1 ـ ............  2 ـ ............</div>`;
+
+    html += `<div class="signature">${template.footer.closing}<br><br>${template.footer.signature_label}<br>${template.footer.signature_line}</div>`;
+
+    document.getElementById('document').innerHTML = html;
+  }
+
+  function goBack() {
+    window.location.href = 'editor.html';
+  }
+
+  render();
+</script></body>
+</html>
